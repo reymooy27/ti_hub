@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#__next{
+  @apply w-full h-full m-0 p-0 bg-background text-white
+}
