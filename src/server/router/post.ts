@@ -25,6 +25,34 @@ export const postRouter = createRouter()
       }
     },
   })
+  .query("get-post", {
+    input: z.object({
+      id: z.number()
+    }),
+    async resolve({ ctx, input }) {
+      try {
+        const post = await ctx.prisma.post.findUnique({
+          where:{
+            id: input.id
+          },
+          include:{
+            user:{
+              select:{
+                name: true,
+                image: true
+              }
+            }
+          }
+        })
+        return post
+      } catch (error) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'There is something error'
+        })
+      }
+    },
+  })
   // .mutation('create-post',{
   //   input: z.object({
   //     title: z.string()

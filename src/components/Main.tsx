@@ -1,26 +1,31 @@
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { trpc } from '../utils/trpc'
 import Post from './Post'
 import { Session } from 'next-auth'
+import Link from 'next/link'
 
 export default function Main({session}: {session: Session}) {
 
   const posts = trpc.useQuery(['post.get-all-posts'])
+  const sortedPostByTime = posts.data?.sort((a,b)=> {
+    const postA = new Date(a.createdAt);
+    const postB = new Date(b.createdAt);
+    return Number(postB) - Number(postA);
+  })
   // const postMutation = trpc.useMutation('post.create-post')
-
   const [input, setInput] = useState<string>('')
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState<boolean>(false)
   const [selectedImage, setSelectedImage] = useState<string | Blob>('')
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(()=>{
-    if(input !== '' || selectedImage !== null){
+    if(input !== '' || selectedImage !== ''){
       setIsSubmitButtonDisabled(false)
     }else{
       setIsSubmitButtonDisabled(true)
     }
-  },[input])
+  },[input, selectedImage])
 
   async function handlePost(){
     if(input !== '' || selectedImage !== null){
@@ -33,12 +38,13 @@ export default function Main({session}: {session: Session}) {
         method: 'POST',
         body: formData,
       })
-      .then(res=> {
+      .then(res=> { 
         console.log(res.json())
         setLoading(false)
         setIsSubmitButtonDisabled(false)
         setInput('')
-        window.alert(res.json())
+        setSelectedImage('')
+        window.alert(res)
       })
       .catch(err=> {
         console.log(err)
@@ -51,11 +57,29 @@ export default function Main({session}: {session: Session}) {
     return
   }
 
+  function handleImageUpload(event: ChangeEvent) {
+    const input = event.target as HTMLInputElement
+    const file = input.files!
+    const firstFile = file[0]!
+
+    const img = firstFile.slice(0, firstFile.size)
+    setSelectedImage(img)
+}
+
   return (
     <div className="w-[66%] h-full flex flex-col justify-start gap-3">
       <div className='flex w-full h-fit p-5 bg-secondary rounded-xl gap-3'>
         <div className='flex justify-start h-fit'>
-          <Image alt='profile-pic' src={session?.user?.image} width={50} height={50} className='rounded-full' />
+          <Link href='/profile'>
+            <a>
+            <Image 
+              alt='profile-pic' 
+              src={session?.user?.image as string} 
+              width={50} 
+              height={50} 
+              className='rounded-full' />
+            </a>
+          </Link>
         </div>
         <div className='w-full flex flex-col gap-3'>
           <div className='flex flex-col justify-center items-center'>
@@ -72,7 +96,12 @@ export default function Main({session}: {session: Session}) {
                   className={`absolute w-[20px] bg-red-500 ${selectedImage ? 'block' : 'hidden'}`} 
                   onClick={()=> setSelectedImage('')}>Remove
                 </button>
-                <img className='rounded-md' alt="not fount" height={'100%'} width={"100%"} src={URL.createObjectURL(selectedImage)} />
+                <img 
+                  className='rounded-md' 
+                  alt="not fount" 
+                  height={'100%'} 
+                  width={"100%"} 
+                  src={URL.createObjectURL(selectedImage) } />
               </div>}
           </div>
           <div className='flex w-full justify-between gap-3'>
@@ -83,7 +112,7 @@ export default function Main({session}: {session: Session}) {
                     type="file"
                     name="imageUpload"
                     title='Photo'
-                    onChange={(event) => setSelectedImage(event.target.files[0])}
+                    onChange={handleImageUpload}
                   />
               </button>
             </div>
@@ -104,10 +133,11 @@ export default function Main({session}: {session: Session}) {
       </div>
       {posts.isLoading ? <h1>Loading...</h1>   
       : 
-        posts?.data?.length < 1 ? <h1>No Post</h1> : 
-        posts.data?.map((post: any)=>(
+        posts?.data?.length as number < 1 ? <h1>No Post</h1> : 
+        sortedPostByTime?.map((post)=>(
           <Post 
             key={post.id} 
+            postId={post.id}
             title={post.title} 
             username={post.user.name} 
             profileImage={post.user.image} 
