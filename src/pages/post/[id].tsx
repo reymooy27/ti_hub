@@ -3,8 +3,9 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Layout from '../../components/Layout'
 import { trpc } from '../../utils/trpc'
-
-export default function Post() {
+import Post from '../../components/Post'
+import type { LikedBy } from '../../components/Post'
+export default function PostPage() {
 
   const router = useRouter()
 
@@ -18,19 +19,24 @@ export default function Post() {
         <title>Post</title>
       </Head>
       
-      <div className='w-[66%] h-full'>
+      <>
         {post.isLoading ? 'Loading...' :
-          <>
-            <h1>{post.data?.title}</h1>
-            {post.data.image && <img src={post.data?.image} alt="Image" />}
-          </>
+          <Post
+            postId={post?.data?.id as number} 
+            title={post?.data?.title as string} 
+            username={post?.data?.user.name as string} 
+            profileImage={post?.data?.user.image as string} 
+            image={post?.data?.image as string} 
+            createdAt={post?.data?.createdAt as Date}
+            likedBy={post?.data?.likedBy as LikedBy[]}
+            />
         }
-      </div>
+      </>
     </>
   )
 }
 
-Post.getLayout = function getLayout(page: React.ReactElement){
+PostPage.getLayout = function getLayout(page: React.ReactElement){
   return(
     <Layout>
       {page}

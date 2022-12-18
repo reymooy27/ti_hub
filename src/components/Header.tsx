@@ -1,7 +1,6 @@
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link';
 import React from 'react'
-import {useState} from 'react';
 
 export default function Header() {
 
@@ -22,7 +21,7 @@ export default function Header() {
         <Link href='/chats' className='rounded w-[40px] h-[40px] bg-primary'>
           <a>Chats</a>
         </Link>
-        <Link href='/' className='rounded w-[40px] h-[40px] bg-primary'>
+        <Link href='/profile' className='rounded w-[40px] h-[40px] bg-primary'>
           <a>Profile</a>
         </Link>
         <Link href='/settings' className='rounded w-[40px] h-[40px] bg-primary'>

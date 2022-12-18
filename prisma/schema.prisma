@@ -33,6 +33,7 @@ model Account {
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -41,12 +42,14 @@ model Session {
     userId       Int
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model User {
-    id            Int       @id @default(autoincrement())
+    id            Int               @id @default(autoincrement())
     name          String?
-    email         String?   @unique
+    email         String?           @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
@@ -58,6 +61,7 @@ model User {
     youtube       String?
     instagram     String?
     resume        String?
+    likes         UserLikesOnPost[]
 }
 
 model VerificationToken {
@@ -69,12 +73,27 @@ model VerificationToken {
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
+    id        Int               @id @default(autoincrement())
     title     String
     image     String?
+    user      User              @relation(fields: [userId], references: [id])
+    userId    Int
+    createdAt DateTime          @default(now())
+    likedBy   UserLikesOnPost[]
+
+    @@index([userId])
+}
+
+model UserLikesOnPost {
+    id        Int      @id @default(autoincrement())
     user      User     @relation(fields: [userId], references: [id])
     userId    Int
+    post      Post     @relation(fields: [postId], references: [id])
+    postId    Int
     createdAt DateTime @default(now())
+
+    @@index([postId])
+    @@index([userId])
 }
 
 model Project {
@@ -85,4 +104,6 @@ model Project {
     githubLink String?
     user       User    @relation(fields: [userId], references: [id])
     userId     Int
+
+    @@index([userId])
 }
