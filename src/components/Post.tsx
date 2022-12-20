@@ -44,8 +44,6 @@ export default function Post({postId, title , image, profileImage, username, cre
     }
   }, [likedByUser])
 
-  console.log(isLiked)
-  
   function handleLikeButton(){
     if(isLiked){
       setIsLiked(false)
