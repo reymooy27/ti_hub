@@ -25,7 +25,21 @@ export default function Main({session}: {session: Session}) {
     }else{
       setIsSubmitButtonDisabled(true)
     }
+
   },[input, selectedImage])
+
+  useEffect(() => {
+    const sp = sessionStorage.getItem('scrollPosition')
+    if(sp){
+      window?.scrollTo(0, parseInt(sp, 10))
+      sessionStorage.removeItem('scrollPosition')
+    }
+  }, [])
+  
+
+  function saveScrollPosition(){
+    sessionStorage.setItem('scrollPosition', window.scrollY.toString())
+  }
 
   async function handlePost(){
     if(input !== '' || selectedImage !== null){
@@ -137,15 +151,17 @@ export default function Main({session}: {session: Session}) {
         sortedPostByTime?.map((post)=>(
           <Link href={`/post/${post.id}`} key={post.id}>
             <a>
-              <Post 
-                key={post.id} 
-                postId={post.id}
-                title={post.title} 
-                username={post.user.name} 
-                profileImage={post.user.image} 
-                image={post.image} 
-                createdAt={post.createdAt}
-                likedBy={post.likedBy}/>
+              <div onClick={saveScrollPosition}>
+                <Post 
+                  key={post.id} 
+                  postId={post.id}
+                  title={post.title} 
+                  username={post.user.name} 
+                  profileImage={post.user.image} 
+                  image={post.image} 
+                  createdAt={post.createdAt}
+                  likedBy={post.likedBy}/>
+              </div>
             </a>
           </Link>
         ))
