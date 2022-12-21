@@ -62,6 +62,7 @@ model User {
     instagram     String?
     resume        String?
     likes         UserLikesOnPost[]
+    comments      Comment[]
 }
 
 model VerificationToken {
@@ -80,7 +81,21 @@ model Post {
     userId    Int
     createdAt DateTime          @default(now())
     likedBy   UserLikesOnPost[]
+    comments  Comment[]
 
+    @@index([userId])
+}
+
+model Comment {
+    id        Int      @id @default(autoincrement())
+    repliedTo Post     @relation(fields: [postId], references: [id])
+    postId    Int
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int
+    createdAt DateTime
+    updatedAt DateTime
+
+    @@index([postId])
     @@index([userId])
 }
 
