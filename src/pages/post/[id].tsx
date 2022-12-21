@@ -29,6 +29,7 @@ export default function PostPage() {
             image={post?.data?.image as string} 
             createdAt={post?.data?.createdAt as Date}
             likedBy={post?.data?.likedBy as LikedBy[]}
+            noLink={true}
             />
         }
       </>
