@@ -6,6 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHeart, faRetweet, faShare, faComment} from '@fortawesome/free-solid-svg-icons'
 import { trpc } from '../utils/trpc'
 import { useSession } from 'next-auth/react'
+import Modal from './Modal'
 
 export type LikedBy = {
   id?: number | null,
@@ -100,7 +101,8 @@ export default function Post({postId, title , image, profileImage, username, cre
         </Link> 
       }
         <div className='flex justify-between pt-5'>  
-          <FontAwesomeIcon icon='comment' width={24} className='cursor-pointer' />
+          <Modal/>
+          {/* <FontAwesomeIcon icon='comment' width={24} className='cursor-pointer'/> */}
           <FontAwesomeIcon icon='heart' width={24} className='cursor-pointer' color={isLiked ? 'red' : 'white'} onClick={handleLikeButton} />
           <FontAwesomeIcon icon='retweet' width={24} className='cursor-pointer'/>
           <FontAwesomeIcon icon='share' width={24} className='cursor-pointer'/>
