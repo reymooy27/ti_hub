@@ -1,6 +1,19 @@
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link';
 import React from 'react'
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+  Button,
+  Flex,
+} from '@chakra-ui/react'
+import Image from 'next/image';
 
 export default function Header() {
 
@@ -15,28 +28,41 @@ export default function Header() {
         </div>
       </div>
       <div className='w-[66%] flex justify-center items-center gap-6'>
-        <Link href='/' className='rounded w-[40px] h-[40px] bg-primary'>
-          <a>Home</a>
+        <Link href='/'>
+          <a className='font-bold'>Home</a>
         </Link>
-        <Link href='/chats' className='rounded w-[40px] h-[40px] bg-primary'>
-          <a>Chats</a>
+        <Link href='/chats'>
+          <a className='font-bold'>Chats</a>
         </Link>
-        <Link href='/profile' className='rounded w-[40px] h-[40px] bg-primary'>
-          <a>Profile</a>
+        <Link href='/profile'>
+          <a className='font-bold'>Profile</a>
         </Link>
-        <Link href='/settings' className='rounded w-[40px] h-[40px] bg-primary'>
-          <a>Setting</a>
+        <Link href='/settings'>
+          <a className='font-bold'>Setting</a>
         </Link>
         
       </div>
       <div className='w-[33%] flex justify-end items-center'>
         {session ? 
-        <div className='flex items-center rounded-xl w-[120px] h-[40px] p-3 bg-background relative'>
-          <h3>{session?.user?.name}</h3>
-          <div className={`w-[200px] h-[200px] bg-red-900 rounded absolute top-[45px] right-0 shadow-xl hidden hover:block`}>
-            <button className='bg-red-500' onClick={()=> signOut()}>Logout</button>
-          </div>
-        </div>
+          <Menu arrowPadding={4}>
+            <MenuButton>
+              <Flex justifyContent='center' alignItems='center'>
+                <Image src={session.user?.image} width={40} height={40} className='rounded-full'/>    
+              </Flex>
+            </MenuButton>
+            <MenuList bgColor={'#282828'}>
+              <MenuGroup title='Profile'>
+                <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>My Account</MenuItem>
+                <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>My Account</MenuItem>
+                <MenuItem onClick={()=> signOut()} backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>SignOut</MenuItem>
+              </MenuGroup>
+              {/* <MenuDivider />
+              <MenuGroup title='Help'>
+                <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>My Account</MenuItem>
+                <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>My Account</MenuItem>
+              </MenuGroup> */}
+            </MenuList>
+          </Menu>
         :
           <Link className='bg-red-500' href="/login">
             <a>Login</a>
