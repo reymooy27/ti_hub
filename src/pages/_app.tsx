@@ -5,7 +5,7 @@ import { withTRPC } from "@trpc/next";
 import { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
-import type { AppType } from "next/dist/shared/lib/utils";
+import { ChakraProvider } from '@chakra-ui/react'
 import { ReactElement } from "react";
 import superjson from "superjson";
 import type { AppRouter } from "../server/router";
@@ -28,7 +28,9 @@ const MyApp = ({
 
   return (
     <SessionProvider session={session}>
-     { getLayout(<Component {...pageProps} />)}
+      <ChakraProvider>
+        { getLayout(<Component {...pageProps} />)}
+      </ChakraProvider>
     </SessionProvider>
   );
 };
