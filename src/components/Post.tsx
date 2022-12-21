@@ -21,12 +21,13 @@ export type PostProps = {
   username: string | null
   createdAt: Date,
   profileImage: string | null,
-  likedBy: LikedBy[]
+  likedBy: LikedBy[],
+  noLink?: boolean,
 }
 
 library.add(faHeart, faRetweet, faShare, faComment)
 
-export default function Post({postId, title , image, profileImage, username, createdAt, likedBy}: PostProps) {
+export default function Post({postId, title , image, profileImage, username, createdAt, likedBy, noLink}: PostProps) {
 
   const {data: session} = useSession()
 
@@ -53,48 +54,57 @@ export default function Post({postId, title , image, profileImage, username, cre
       mutation.mutate({postId: postId, liked: true})
     }
   }
-  
-  return (
-    <>
-      <div className="w-full h-full p-4 rounded-xl bg-secondary flex transition-all ease-in-out duration-300">
-          <div className='mr-3'>
+
+  const Unwrapped = ()=> {
+    return(
+      <div className='flex'>
+        <div className='mr-3'>
+          <Link href='/profile'>
+            <a>
+              {profileImage && <Image alt='profile-pic' src={profileImage} width={50} height={50} className='rounded-full' />}
+            </a>
+          </Link>
+        </div>
+        <div className='w-full'>
+          <div className='flex gap-3'>
             <Link href='/profile'>
-              <a>
-                {profileImage && <Image alt='profile-pic' src={profileImage} width={50} height={50} className='rounded-full' />}
-              </a>
+              <h1 className='cursor-pointer font-bold hover:underline'>{username}</h1>
             </Link>
+            <h1>{new Date(createdAt).toLocaleDateString()}</h1>
           </div>
           <div className='w-full'>
-            <div className='flex gap-3'>
-              <Link href='/profile'>
-                <a>
-                  <h1 className='font-bold hover:underline'>{username}</h1>
-                </a>
-              </Link>
-              <h1>{new Date(createdAt).toLocaleDateString()}</h1>
-            </div>
-            <div className='w-full'>
-              <p>{title}</p>
-            </div>
-            {image && 
-              <div className='w-full'>
-                <img 
-                  alt='image' 
-                  src={image} 
-                  width={"100%"} 
-                  height={'100%'} 
-                  className='w-full h-full rounded-xl pt-2'/>
-              </div>
-            }
-
-            <div className='flex justify-between pt-5'>  
-              <FontAwesomeIcon icon='comment' width={24} />
-              <FontAwesomeIcon icon='heart' width={24} color={isLiked ? 'red' : 'white'} onClick={handleLikeButton} />
-              <FontAwesomeIcon icon='retweet' width={24}/>
-              <FontAwesomeIcon icon='share' width={24}/>
-            </div>
+            <p>{title}</p>
           </div>
+          {image && 
+            <div className='w-full'>
+              <img 
+                alt='image' 
+                src={image} 
+                width={"100%"} 
+                height={'100%'} 
+                className='w-full h-full rounded-xl pt-2'/>
+            </div>
+          }
+        </div>
       </div>
-    </>
+    )
+  }
+
+  return (
+    <div className="w-full h-full p-4 rounded-xl bg-secondary transition-all ease-in-out duration-200 hover:bg-hover-secondary">
+      {noLink ? <Unwrapped/> : 
+        <Link href={`/post/${postId}`}>
+          <a>
+            {<Unwrapped/>}
+          </a>
+        </Link> 
+      }
+        <div className='flex justify-between pt-5'>  
+          <FontAwesomeIcon icon='comment' width={24} className='cursor-pointer' />
+          <FontAwesomeIcon icon='heart' width={24} className='cursor-pointer' color={isLiked ? 'red' : 'white'} onClick={handleLikeButton} />
+          <FontAwesomeIcon icon='retweet' width={24} className='cursor-pointer'/>
+          <FontAwesomeIcon icon='share' width={24} className='cursor-pointer'/>
+        </div>
+      </div>
   )
 }

@@ -149,21 +149,17 @@ export default function Main({session}: {session: Session}) {
       : 
         posts?.data?.length as number < 1 ? <h1>No Post</h1> : 
         sortedPostByTime?.map((post)=>(
-          <Link href={`/post/${post.id}`} key={post.id}>
-            <a>
-              <div onClick={saveScrollPosition}>
-                <Post 
-                  key={post.id} 
-                  postId={post.id}
-                  title={post.title} 
-                  username={post.user.name} 
-                  profileImage={post.user.image} 
-                  image={post.image} 
-                  createdAt={post.createdAt}
-                  likedBy={post.likedBy}/>
-              </div>
-            </a>
-          </Link>
+          <div onClick={saveScrollPosition} key={post.id}>
+            <Post 
+              key={post.id} 
+              postId={post.id}
+              title={post.title} 
+              username={post.user.name} 
+              profileImage={post.user.image} 
+              image={post.image} 
+              createdAt={post.createdAt}
+              likedBy={post.likedBy}/>
+          </div>
         ))
       }
     </div>
