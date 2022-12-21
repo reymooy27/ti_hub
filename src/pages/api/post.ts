@@ -5,6 +5,7 @@ import {v2 as cloudinary} from 'cloudinary'
 import nc from "next-connect";
 import {prisma} from '../../server/db/client'
 import { getServerAuthSession } from '../../server/common/get-server-auth-session';
+import { NextApiRequestWithFile } from './comment';
 
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
@@ -27,7 +28,7 @@ const uploadPostImage = multer({
   limits: { fileSize: 5000000 },
 }).single("imageUpload");
 
-const handler = nc<NextApiRequest, NextApiResponse>({
+const handler = nc<NextApiRequestWithFile, NextApiResponse>({
   onError: (err, req, res, next) => {
     console.error(err.stack);
     res.status(500).end("Something broke!");
@@ -47,7 +48,7 @@ const handler = nc<NextApiRequest, NextApiResponse>({
         await prisma?.post?.create({
           data:{
             title: req.body.title,
-            userId: session?.user?.id,
+            userId: session?.user?.id as number,
             image: imagePath
           }
         })
