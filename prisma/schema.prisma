@@ -47,9 +47,9 @@ model Session {
 }
 
 model User {
-    id            Int               @id @default(autoincrement())
+    id            Int       @id @default(autoincrement())
     name          String?
-    email         String?           @unique
+    email         String?   @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
@@ -61,7 +61,7 @@ model User {
     youtube       String?
     instagram     String?
     resume        String?
-    likes         UserLikesOnPost[]
+    likes         Like[]
     comments      Comment[]
 }
 
@@ -74,13 +74,13 @@ model VerificationToken {
 }
 
 model Post {
-    id        Int               @id @default(autoincrement())
+    id        Int       @id @default(autoincrement())
     title     String
     image     String?
-    user      User              @relation(fields: [userId], references: [id])
+    user      User      @relation(fields: [userId], references: [id])
     userId    Int
-    createdAt DateTime          @default(now())
-    likedBy   UserLikesOnPost[]
+    createdAt DateTime  @default(now())
+    likedBy   Like[]
     comments  Comment[]
 
     @@index([userId])
@@ -88,27 +88,33 @@ model Post {
 
 model Comment {
     id        Int      @id @default(autoincrement())
+    comment   String?
+    image     String?
     repliedTo Post     @relation(fields: [postId], references: [id])
     postId    Int
     user      User     @relation(fields: [userId], references: [id])
     userId    Int
-    createdAt DateTime
-    updatedAt DateTime
+    likes     Like[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
 
     @@index([postId])
     @@index([userId])
 }
 
-model UserLikesOnPost {
+model Like {
     id        Int      @id @default(autoincrement())
     user      User     @relation(fields: [userId], references: [id])
     userId    Int
     post      Post     @relation(fields: [postId], references: [id])
     postId    Int
+    comment   Comment  @relation(fields: [commentId], references: [id])
+    commentId Int
     createdAt DateTime @default(now())
 
     @@index([postId])
     @@index([userId])
+    @@index([commentId])
 }
 
 model Project {
