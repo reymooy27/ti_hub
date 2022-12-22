@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { CloseButton } from '@chakra-ui/react'
 
 library.add(faImage)
 
@@ -117,10 +118,13 @@ export default function Main({session}: {session: Session}) {
               >
             </textarea>
               {selectedImage && <div className='w-full mt-3 rounded-md relative'>
-                <button 
-                  className={`absolute w-[20px] bg-red-500 ${selectedImage ? 'block' : 'hidden'}`} 
-                  onClick={handleRemoveImageInput}>Remove
-                </button>
+                <CloseButton  
+                  position='absolute' 
+                  top={0} 
+                  right={0} 
+                  onClick={handleRemoveImageInput} 
+                  hidden={selectedImage !== '' ? false : true}
+                />
                 <img 
                   className='rounded-md' 
                   alt="not fount" 
