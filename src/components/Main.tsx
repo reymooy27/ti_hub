@@ -81,7 +81,7 @@ export default function Main({session}: {session: Session}) {
   function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
     if(event.target.files !== null && event.target.files[0] !== undefined){
       const img = event.target.files[0].slice(0, event?.target?.files[0].size)
-      setSelectedImage(URL.createObjectURL(img))
+      setSelectedImage(img)
     }
   }
 
@@ -130,7 +130,7 @@ export default function Main({session}: {session: Session}) {
                   alt="not fount" 
                   height={'100%'} 
                   width={"100%"} 
-                  src={selectedImage as string} />
+                  src={URL.createObjectURL(selectedImage as Blob)} />
               </div>}
           </div>
           <div className='flex w-full justify-between items-end gap-3'>

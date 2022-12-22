@@ -13,14 +13,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
-export default function CommentButton({postId}) {
+export default function CommentButton({postId}: {postId: number}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const {data: session} = useSession()
 
   const [comment, setComment] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
-  const [selectedImage, setSelectedImage] = useState('')
+  const [selectedImage, setSelectedImage] = useState<Blob | string>('')
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState<boolean>(false)
 
   const fileInputRef = useRef(null)
@@ -42,7 +42,7 @@ export default function CommentButton({postId}) {
       formData.append('imageUpload', selectedImage)
       formData.append('comment', comment)
       formData.append('userId', session?.user?.id?.toString() as string)
-      formData.append('postId',postId)
+      formData.append('postId',postId.toString())
       await fetch('http://localhost:3000/api/comment',{
         method: 'POST',
         body: formData,
@@ -70,7 +70,7 @@ export default function CommentButton({postId}) {
   function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
     if(event.target.files !== null && event.target.files[0] !== undefined){
       const img = event.target.files[0].slice(0, event?.target?.files[0].size)
-      setSelectedImage(URL.createObjectURL(img))
+      setSelectedImage(img)
     }
   }
 
@@ -132,7 +132,7 @@ export default function CommentButton({postId}) {
                         alt="not fount" 
                         height={'100%'} 
                         width={"100%"} 
-                        src={selectedImage as string} />
+                        src={URL.createObjectURL(selectedImage as Blob)} />
                     </div>}
                 </div>
                 <div className='flex w-full justify-between items-end gap-3'>
