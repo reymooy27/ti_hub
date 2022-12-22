@@ -12,6 +12,7 @@ export default function PostPage() {
   const id: number = parseInt(router.query.id as string, 10)
 
   const post = trpc.useQuery(['post.get-post', {id}])
+  const comments = trpc.useQuery(['comment.get-comments', {postId: id}])
 
   return (
     <>
@@ -32,6 +33,23 @@ export default function PostPage() {
             noLink={true}
             />
         }
+
+        <h1>Comments</h1>
+        {comments.isLoading && 'Loading...'}
+        {Number(comments.data?.length) < 1 && 'No Comments' }
+        {comments.data?.map(c=>(
+          <Post
+            key={c.id}
+            postId={c.postId as number} 
+            title={c.comment as string} 
+            username={c.user.name as string} 
+            profileImage={c.user.image as string} 
+            image={c.image as string} 
+            createdAt={c.createdAt as Date}
+            likedBy={c.likes as LikedBy[]}
+            noLink={true}
+            />
+        ))}
       </>
     </>
   )
