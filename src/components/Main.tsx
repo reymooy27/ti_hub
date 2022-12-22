@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { trpc } from '../utils/trpc'
 import Post from './Post'
 import { Session } from 'next-auth'
@@ -23,6 +23,7 @@ export default function Main({session}: {session: Session}) {
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState<boolean>(false)
   const [selectedImage, setSelectedImage] = useState<string | Blob>('')
   const [loading, setLoading] = useState<boolean>(false)
+  const fileInputRef = useRef(null)
 
   useEffect(()=>{
     if(input !== '' || selectedImage !== ''){
@@ -76,18 +77,19 @@ export default function Main({session}: {session: Session}) {
     return
   }
 
-  function handleImageUpload(event: ChangeEvent) {
-    const input = event.target as HTMLInputElement
-    const file = input.files!
-    const firstFile = file[0]!
-
-    if(firstFile.type.match('/^image\/(jpg|png|jpeg)$/')){
-      const img = firstFile.slice(0, firstFile.size)
-      setSelectedImage(img)
+  function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
+    if(event.target.files !== null && event.target.files[0] !== undefined){
+      const img = event.target.files[0].slice(0, event?.target?.files[0].size)
+      setSelectedImage(URL.createObjectURL(img))
     }
+  }
 
+  function handleRemoveImageInput(){
     setSelectedImage('')
-}
+    if (fileInputRef !== null && fileInputRef.current !== null) {
+      fileInputRef.current.value = ''
+    }
+  }
 
   return (
     <div className="w-[66%] h-full flex flex-col justify-start gap-3">
@@ -114,17 +116,17 @@ export default function Main({session}: {session: Session}) {
               onChange={(e)=> setInput(e.target.value)}
               >
             </textarea>
-              {selectedImage && <div className='w-full pt-3 rounded-md relative'>
+              {selectedImage && <div className='w-full mt-3 rounded-md relative'>
                 <button 
                   className={`absolute w-[20px] bg-red-500 ${selectedImage ? 'block' : 'hidden'}`} 
-                  onClick={()=> setSelectedImage('')}>Remove
+                  onClick={handleRemoveImageInput}>Remove
                 </button>
                 <img 
                   className='rounded-md' 
                   alt="not fount" 
                   height={'100%'} 
                   width={"100%"} 
-                  src={URL.createObjectURL(selectedImage) } />
+                  src={selectedImage as string} />
               </div>}
           </div>
           <div className='flex w-full justify-between items-end gap-3'>
@@ -132,6 +134,7 @@ export default function Main({session}: {session: Session}) {
               <FontAwesomeIcon icon='image' width={24} className='cursor-pointer'/>
               <input className='absolute top-0 left-0 right-0 bottom-0 opacity-0'
                 type="file"
+                ref={fileInputRef}
                 name="imageUpload"
                 title='Photo'
                 accept=".png, .jpg, .jpeg"
