@@ -29,7 +29,7 @@ const storage = new CloudinaryStorage({
 const uploadPostImage = multer({
   storage: storage,
   limits: { fileSize: 5000000 },
-}).single("imageUpload");
+}).single("imageUpload"); //'imageUpload' from the image append in formdata
 
 
 const handler = nc<NextApiRequestWithFile, NextApiResponse>({
@@ -53,11 +53,12 @@ const handler = nc<NextApiRequestWithFile, NextApiResponse>({
           data:{
             comment: req.body.comment,
             image: imagePath,
-            userId: session?.user?.id as number,
-            postId: req.body.postId
+            userId: Number(session?.user?.id),
+            postId: Number(req.body.postId)
           }
         })
       } catch (error) {
+        console.log(error)
         res.status(400).send('comment not created')
       }
     res.status(200).send('comment created')
