@@ -4,6 +4,11 @@ import { trpc } from '../utils/trpc'
 import Post from './Post'
 import { Session } from 'next-auth'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImage } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+library.add(faImage)
 
 export default function Main({session}: {session: Session}) {
 
@@ -118,17 +123,16 @@ export default function Main({session}: {session: Session}) {
                   src={URL.createObjectURL(selectedImage) } />
               </div>}
           </div>
-          <div className='flex w-full justify-between gap-3'>
-            <div>
-              <button title='Photo' className="relative rounded-xl h-[40px] p-2 bg-background">
-                Photo
-                <input className='absolute top-0 left-0 right-0 bottom-0 opacity-0'
-                    type="file"
-                    name="imageUpload"
-                    title='Photo'
-                    onChange={handleImageUpload}
-                  />
-              </button>
+          <div className='flex w-full justify-between items-end gap-3'>
+            <div className='relative w-fit h-fit'>
+              <FontAwesomeIcon icon='image' width={24} className='cursor-pointer'/>
+              <input className='absolute top-0 left-0 right-0 bottom-0 opacity-0'
+                type="file"
+                name="imageUpload"
+                title='Photo'
+                accept=".png, .jpg, .jpeg"
+                onChange={handleImageUpload}
+              />
             </div>
             <div className='w-[120px] self-end'>
               <button 
