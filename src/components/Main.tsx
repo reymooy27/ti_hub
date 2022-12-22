@@ -81,8 +81,12 @@ export default function Main({session}: {session: Session}) {
     const file = input.files!
     const firstFile = file[0]!
 
-    const img = firstFile.slice(0, firstFile.size)
-    setSelectedImage(img)
+    if(firstFile.type.match('/^image\/(jpg|png|jpeg)$/')){
+      const img = firstFile.slice(0, firstFile.size)
+      setSelectedImage(img)
+    }
+
+    setSelectedImage('')
 }
 
   return (
