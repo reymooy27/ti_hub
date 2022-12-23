@@ -105,40 +105,18 @@ export const postRouter = createRouter()
   .mutation('like-post',{
     input: z.object({
       postId: z.number(),
-      liked: z.boolean()
     }
     ),
     async resolve({ctx, input}){
       try {
-        if(input.liked){
-          const like = ctx.prisma.post.update({
-            where:{
-              id: input.postId
-            },
-            data:{
-              likedBy:{
-                create:{
-                  userId: ctx?.session?.user?.id as number,
-                }
-              }
-            }
-          })
-          return like
-        }else{
-          const like = ctx.prisma.post.update({
-            where:{
-              id: input.postId
-            },
-            data:{
-              likedBy:{
-                deleteMany:{
-                  userId: ctx?.session?.user?.id as number,
-                }
-              }
-            }
-          })
-          return like
-        }
+        const like = ctx.prisma.like.create({
+          data:{
+            postId: input.postId,
+            userId: Number(ctx?.session?.user?.id),
+          }
+        })
+        return like
+        
       } catch (error) {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
@@ -147,4 +125,3 @@ export const postRouter = createRouter()
       }
     }
   })
-

@@ -49,10 +49,10 @@ export default function Post({postId, title , image, profileImage, username, cre
   function handleLikeButton(){
     if(isLiked){
       setIsLiked(false)
-      mutation.mutate({postId: postId, liked: false})
+      mutation.mutate({postId: postId})
     }else{
       setIsLiked(true)
-      mutation.mutate({postId: postId, liked: true})
+      // mutation.mutate({postId: postId, liked: true})
     }
   }
 
