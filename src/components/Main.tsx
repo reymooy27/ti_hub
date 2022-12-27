@@ -173,7 +173,9 @@ export default function Main({session}: {session: Session}) {
               profileImage={post.user.image} 
               image={post.image} 
               createdAt={post.createdAt}
-              likedBy={post.likedBy}/>
+              likes={post.likes}
+              count={post._count}
+              />
           </div>
         ))
       }

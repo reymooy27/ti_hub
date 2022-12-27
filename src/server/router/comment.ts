@@ -22,9 +22,10 @@ export const commentRouter = createRouter()
           },
           likes:{
             select:{
-              id: true
+              userId: true
             }
-          }
+          },
+          _count: true
         }
       })
       return comments

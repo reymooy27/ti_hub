@@ -14,12 +14,12 @@ export const postRouter = createRouter()
                 image: true
               }
             },
-            likedBy: {
+            likes: {
               select:{
                 userId: true,
-                createdAt: true
               }
             },
+            _count: true
           },
         })
         return posts
@@ -42,17 +42,35 @@ export const postRouter = createRouter()
             id: input.id
           },
           include:{
+            _count: true,
             user:{
               select:{
                 name: true,
                 image: true,
               }
             },
-            likedBy: {
+            likes: {
               select:{
                 userId: true,
               }
             },
+            comments:{
+              include:{
+                _count: true,
+                user:{
+                  select:{
+                    id: true,
+                    name: true,
+                    image: true
+                  }
+                },
+                likes:{
+                  select:{
+                    id: true
+                  }
+                }
+              }
+            }
           }
         })
         return post
@@ -69,7 +87,7 @@ export const postRouter = createRouter()
       try {
         const posts = await ctx.prisma.post.findMany({
           where: {
-            likedBy:{
+            likes:{
               some:{
                 userId: ctx?.session?.user?.id as number
               }
@@ -82,7 +100,7 @@ export const postRouter = createRouter()
                 image: true
               }
             },
-            likedBy: {
+            likes: {
               where:{
                 userId: ctx?.session?.user?.id as number,
               },
@@ -91,6 +109,7 @@ export const postRouter = createRouter()
                 createdAt: true
               },
             },
+            _count: true
           },
         })
         return posts
@@ -104,7 +123,8 @@ export const postRouter = createRouter()
   })
   .mutation('like-post',{
     input: z.object({
-      postId: z.number(),
+      postId: z.number().optional(),
+      commentId: z.number().optional()
     }
     ),
     async resolve({ctx, input}){
@@ -112,6 +132,32 @@ export const postRouter = createRouter()
         const like = ctx.prisma.like.create({
           data:{
             postId: input.postId,
+            commentId: input.commentId,
+            userId: Number(ctx?.session?.user?.id),
+          }
+        })
+        return like
+        
+      } catch (error) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'There is something error'
+        })
+      }
+    }
+  })
+  .mutation('unlike-post',{
+    input: z.object({
+      postId: z.number().optional(),
+      commentId: z.number().optional(),
+    }
+    ),
+    async resolve({ctx, input}){
+      try {
+        const like = ctx.prisma.like.deleteMany({
+          where:{
+            postId: input.postId,
+            commentId: input.commentId,
             userId: Number(ctx?.session?.user?.id),
           }
         })

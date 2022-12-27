@@ -8,8 +8,8 @@ export default function ProfilePage() {
 
   const likedPosts = trpc.useQuery(['post.posts-liked-by-user'])
   const sortedLikedPosts = likedPosts?.data?.sort((a,b)=>{
-    const postA = new Date(a.likedBy[0]?.createdAt);
-    const postB = new Date(b.likedBy[0]?.createdAt);
+    const postA = new Date(a.likes[0]?.createdAt);
+    const postB = new Date(b.likes[0]?.createdAt);
     return Number(postB) - Number(postA);
   })
 
@@ -31,7 +31,8 @@ export default function ProfilePage() {
             profileImage={post.user.image} 
             image={post.image} 
             createdAt={post.createdAt}
-            likedBy={post.likedBy}
+            likes={post.likes}
+            count={post._count}
           />
         ))}
       </>

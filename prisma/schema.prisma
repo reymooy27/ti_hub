@@ -80,7 +80,7 @@ model Post {
     user      User      @relation(fields: [userId], references: [id])
     userId    Int
     createdAt DateTime  @default(now())
-    likedBy   Like[]
+    likes     Like[]
     comments  Comment[]
 
     @@index([userId])

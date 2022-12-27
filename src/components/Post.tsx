@@ -8,7 +8,12 @@ import { trpc } from '../utils/trpc'
 import { useSession } from 'next-auth/react'
 import CommentButton from './Modal'
 
-export type LikedBy = {
+export type Count ={
+  likes?: number,
+  comments?: number
+}
+
+export type Like = {
   id?: number | null,
   userId: number | null,
   postId?: number | null,
@@ -22,21 +27,31 @@ export type PostProps = {
   username: string | null
   createdAt: Date,
   profileImage: string | null,
-  likedBy: LikedBy[],
+  likes: Like[],
   noLink?: boolean,
+  count: Count
 }
 
 library.add(faHeart, faRetweet, faShare, faComment)
 
-export default function Post({postId, title , image, profileImage, username, createdAt, likedBy, noLink}: PostProps) {
+export default function Post(
+  { postId, 
+    title , 
+    image, 
+    profileImage, 
+    username, 
+    createdAt, 
+    likes, 
+    noLink, 
+    count
+  }: PostProps) {
 
   const {data: session} = useSession()
-
-  const mutation = trpc.useMutation(['post.like-post'])
-
+  const likeMutation = trpc.useMutation(['post.like-post'])
+  const unlikeMutation = trpc.useMutation(['post.unlike-post'])
   const [isLiked, setIsLiked] = useState<boolean>(false)
-
-  const likedByUser = likedBy.filter(value=> value?.userId === session?.user?.id).length > 0 ? true : false
+  const [likeCounts, setLikeCounts] = useState<number>(0)
+  const likedByUser = likes.filter(value=> value?.userId === session?.user?.id).length > 0 ? true : false
 
   useEffect(() => {
     if(likedByUser){
@@ -44,15 +59,19 @@ export default function Post({postId, title , image, profileImage, username, cre
     }else{
       setIsLiked(false)
     }
-  }, [likedByUser])
+
+    setLikeCounts(Number(count?.likes))
+  }, [likedByUser, count?.likes])
 
   function handleLikeButton(){
-    if(isLiked){
+    if(isLiked === true){
       setIsLiked(false)
-      mutation.mutate({postId: postId})
+      setLikeCounts((likes)=> likes - 1)
+      unlikeMutation.mutate({postId: postId})
     }else{
       setIsLiked(true)
-      // mutation.mutate({postId: postId, liked: true})
+      setLikeCounts((likes)=> likes + 1)
+      likeMutation.mutate({postId: postId})
     }
   }
 
@@ -62,7 +81,15 @@ export default function Post({postId, title , image, profileImage, username, cre
         <div className='mr-3'>
           <Link href='/profile'>
             <a>
-              {profileImage && <Image alt='profile-pic' src={profileImage} width={50} height={50} className='rounded-full' />}
+              {profileImage && 
+                <Image 
+                alt='profile-pic' 
+                src={profileImage} 
+                width={50} 
+                height={50} 
+                className='rounded-full' 
+                />
+              }
             </a>
           </Link>
         </div>
@@ -100,11 +127,18 @@ export default function Post({postId, title , image, profileImage, username, cre
           </a>
         </Link> 
       }
-        <div className='flex justify-between pt-5'>  
-          <CommentButton postId={postId}/>
-          {/* <FontAwesomeIcon icon='comment' width={24} className='cursor-pointer'/> */}
-          <FontAwesomeIcon icon='heart' width={24} className='cursor-pointer' color={isLiked ? 'red' : 'white'} onClick={handleLikeButton} />
-          <FontAwesomeIcon icon='retweet' width={24} className='cursor-pointer'/>
+        <div className='flex justify-between items-center pt-5'>
+          <div className='flex gap-1 items-center'>
+            <CommentButton postId={postId}/>
+            {count?.comments !== undefined && count?.comments > 0 && <p>{count?.comments}</p>}
+          </div>  
+          <div className='flex gap-1 items-center'>
+            <FontAwesomeIcon icon='heart' width={24} className='cursor-pointer' color={isLiked ? 'red' : 'white'} onClick={handleLikeButton} />
+            {likeCounts !== undefined && likeCounts > 0 ? <p>{likeCounts}</p> : null}
+          </div>
+          <div className='flex gap-1 items-center'>
+            <FontAwesomeIcon icon='retweet' width={24} className='cursor-pointer'/>
+          </div>
           <FontAwesomeIcon icon='share' width={24} className='cursor-pointer'/>
         </div>
       </div>
