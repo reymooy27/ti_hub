@@ -47,7 +47,7 @@ export default function Header() {
           <Menu arrowPadding={4}>
             <MenuButton>
               <Flex justifyContent='center' alignItems='center'>
-                <Image src={session.user?.image} width={40} height={40} className='rounded-full'/>    
+                <Image src={session.user?.image as string} width={40} height={40} className='rounded-full' alt='profile-picture'/>    
               </Flex>
             </MenuButton>
             <MenuList bgColor={'#282828'}>

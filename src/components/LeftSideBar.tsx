@@ -11,7 +11,7 @@ export default function LeftSideBar() {
       <div className='h-[300px] bg-secondary rounded-xl'>
         <div className='bg-red-300 rounded-xl'></div>
         <div className='flex flex-col justify-center items-center pt-6'>
-          <Image className='rounded-3xl border-2 border-white border-solid' src={session?.user?.image} alt='Profile' height={50} width={50}/>
+          <Image className='rounded-3xl border-2 border-white border-solid' src={session?.user?.image as string} alt='Profile' height={50} width={50}/>
           <h1 className='mt-2 text-sm font-bold'>{session?.user?.name}</h1>
         </div>
       </div>
