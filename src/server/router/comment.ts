@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { createRouter } from "./context";
 import { TRPCError } from "@trpc/server";
+import { createProtectedRouter } from "./protected-router";
 
-export const commentRouter = createRouter()
+export const commentRouter = createProtectedRouter()
 .query('get-comments',{
   input: z.object({
     postId: z.number()

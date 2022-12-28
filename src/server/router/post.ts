@@ -1,8 +1,8 @@
-import { createRouter } from "./context";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { createProtectedRouter } from "./protected-router";
 
-export const postRouter = createRouter()
+export const postRouter = createProtectedRouter()
   .query("get-all-posts", {
     async resolve({ ctx }) {
       try {
