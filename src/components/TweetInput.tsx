@@ -3,11 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { faImage } from '@fortawesome/free-solid-svg-icons'
-import { library } from '@fortawesome/fontawesome-svg-core'
 import { useSession } from 'next-auth/react'
-
-library.add(faImage)
 
 export default function TweetInput() {
 

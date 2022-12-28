@@ -2,8 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHeart, faRetweet, faShare, faComment} from '@fortawesome/free-solid-svg-icons'
 import { trpc } from '../utils/trpc'
 import { useSession } from 'next-auth/react'
 import CommentButton from './Modal'
@@ -31,8 +29,6 @@ export type PostProps = {
   noLink?: boolean,
   count: Count
 }
-
-library.add(faHeart, faRetweet, faShare, faComment)
 
 export default function Post(
   { postId, 
