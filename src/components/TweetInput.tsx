@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { getBaseUrl } from '../pages/_app'
 
 export default function TweetInput() {
 
@@ -30,7 +31,7 @@ export default function TweetInput() {
       const formData = new FormData()
       formData.append('imageUpload', selectedImage)
       formData.append('title', input)
-      await fetch('http://localhost:3000/api/post',{
+      await fetch(`${getBaseUrl()}/api/post`,{
         method: 'POST',
         body: formData,
       })

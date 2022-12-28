@@ -12,6 +12,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { getBaseUrl } from '../pages/_app'
 
 export default function CommentButton({postId}: {postId: number}) {
 
@@ -41,7 +42,7 @@ export default function CommentButton({postId}: {postId: number}) {
       formData.append('comment', comment)
       formData.append('userId', session?.user?.id?.toString() as string)
       formData.append('postId',postId.toString())
-      await fetch('http://localhost:3000/api/comment',{
+      await fetch(`${getBaseUrl()}/api/comment`,{
         method: 'POST',
         body: formData,
       })
