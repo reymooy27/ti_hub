@@ -10,14 +10,8 @@ export default function PostPage() {
   const router = useRouter()
 
   const id: number = parseInt(router.query.id as string, 10)
-
   const post = trpc.useQuery(['post.get-post', {id}])
   const comments = trpc.useQuery(['comment.get-comments', {postId: id}])
-  const sortedComments = comments?.data?.sort((a,b)=>{
-    const commentA = new Date(a.createdAt);
-    const commentB = new Date(b.createdAt);
-    return Number(commentB) - Number(commentA);
-  })
 
   return (
     <>
@@ -43,8 +37,8 @@ export default function PostPage() {
 
         <h1>Comments</h1>
         {comments?.isLoading && 'Loading...'}
-        {Number(sortedComments?.length) < 1 && 'No Comments' }
-        {sortedComments?.map(c=>(
+        {Number(comments?.data?.length) < 1 && 'No Comments' }
+        {comments?.data?.map(c=>(
           <Post
             key={c.id}
             postId={c.id as number} 

@@ -6,11 +6,6 @@ import TweetInput from './TweetInput'
 export default function Main() {
 
   const posts = trpc.useQuery(['post.get-all-posts'])
-  const sortedPostByTime = posts.data?.sort((a,b)=> {
-    const postA = new Date(a.createdAt);
-    const postB = new Date(b.createdAt);
-    return Number(postB) - Number(postA);
-  })
 
   useEffect(() => {
     const sp = sessionStorage.getItem('scrollPosition')
@@ -31,7 +26,7 @@ export default function Main() {
       {posts.isLoading ? <h1>Loading...</h1>   
       : 
         posts?.data?.length as number < 1 ? <h1>No Post</h1> : 
-        sortedPostByTime?.map((post)=>(
+        posts?.data?.map((post)=>(
           <div onClick={saveScrollPosition} key={post.id}>
             <Post 
               key={post.id} 
