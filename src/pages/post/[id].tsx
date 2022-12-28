@@ -4,7 +4,7 @@ import React from 'react'
 import Layout from '../../components/Layout'
 import { trpc } from '../../utils/trpc'
 import Post from '../../components/Post'
-import type { Like } from '../../components/Post'
+import type { Like, Count } from '../../components/Post'
 export default function PostPage() {
 
   const router = useRouter()
@@ -30,7 +30,7 @@ export default function PostPage() {
             createdAt={post?.data?.createdAt as Date}
             likes={post?.data?.likes as Like[]}
             noLink={true}
-            count={post?.data?._count}
+            count={post?.data?._count as Count}
             userId={Number(post?.data?.userId)}
             />
         }

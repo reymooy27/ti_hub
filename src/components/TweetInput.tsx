@@ -11,7 +11,7 @@ export default function TweetInput() {
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState<boolean>(false)
   const [selectedImage, setSelectedImage] = useState<string | Blob>('')
   const [loading, setLoading] = useState<boolean>(false)
-  const fileInputRef = useRef(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const {data: session} = useSession()
 
   useEffect(()=>{
@@ -62,7 +62,7 @@ export default function TweetInput() {
 
   function handleRemoveImageInput(){
     setSelectedImage('')
-    if (fileInputRef !== null && fileInputRef.current !== null) {
+    if (fileInputRef.current !== null && fileInputRef.current !== undefined) {
       fileInputRef.current.value = ''
     }
   }

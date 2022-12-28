@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import Header from './Header'
 import LeftSideBar from './LeftSideBar'
 import RightSideBar from './RightSideBar'
 
-export default function Layout({children}) {
+export default function Layout({children}: {children: ReactElement}) {
   return (
     <div className='h-full w-full'>
       <Header/>

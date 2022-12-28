@@ -14,16 +14,14 @@ import Link from 'next/link'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 export default function CommentButton({postId}: {postId: number}) {
+
   const { isOpen, onOpen, onClose } = useDisclosure()
-
   const {data: session} = useSession()
-
   const [comment, setComment] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [selectedImage, setSelectedImage] = useState<Blob | string>('')
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState<boolean>(false)
-
-  const fileInputRef = useRef(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(()=>{
     if(comment !== '' || selectedImage !== ''){
