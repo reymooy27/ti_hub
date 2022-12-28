@@ -22,7 +22,7 @@ export default function ProfilePage() {
         <h1>Liked Post</h1>
         {likedPosts.isLoading && 'Loading...'}
         {likedPosts?.data?.length as number < 1 && 'No liked post'}
-        {likedPosts.data?.map(post=>(
+        {sortedLikedPosts?.map(post=>(
           <Post
             key={post.id} 
             postId={post.id}
