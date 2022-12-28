@@ -26,6 +26,9 @@ export const commentRouter = createRouter()
             }
           },
           _count: true
+        },
+        orderBy:{
+          createdAt: 'desc'
         }
       })
       return comments

@@ -21,6 +21,9 @@ export const postRouter = createRouter()
             },
             _count: true
           },
+          orderBy:{
+            createdAt: 'desc'
+          }
         })
         return posts
       } catch (error) {
