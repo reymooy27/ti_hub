@@ -1,10 +1,14 @@
 import React from 'react'
-import { trpc } from '../utils/trpc'
-import Post from '../components/Post'
 import Head from 'next/head'
-import Layout from '../components/Layout'
+import { useRouter } from 'next/router'
+import { trpc } from '../../utils/trpc'
+import Post from '../../components/Post'
+import Layout from '../../components/Layout'
 
 export default function ProfilePage() {
+
+  const router = useRouter()
+  const userId = parseInt(router.query.id as string, 10)
 
   const likedPosts = trpc.useQuery(['post.posts-liked-by-user'])
   const sortedLikedPosts = likedPosts?.data?.sort((a,b)=>{
@@ -12,17 +16,23 @@ export default function ProfilePage() {
     const postB = new Date(b.likes[0]?.createdAt);
     return Number(postB) - Number(postA);
   })
-
+  const userDetails = trpc.useQuery(['user.user-details', {userId}])
+  const userPost = userDetails.data?.posts
   return (
     <>
       <Head>
         <title>Profile</title>
       </Head>
       <>
-        <h1>Liked Post</h1>
-        {likedPosts.isLoading && 'Loading...'}
-        {likedPosts?.data?.length as number < 1 && 'No liked post'}
-        {sortedLikedPosts?.map(post=>(
+      <div className='w-full h-full flex justify-between'>
+        <h1 className='underline'>Tweets</h1>
+        <h1>Tweets & replies</h1>
+        <h1>Media</h1>
+        <h1>Likes</h1>
+      </div>
+        {userDetails.isLoading && 'Loading...'}
+        {userPost?.length as number < 1 && 'No liked post'}
+        {userPost?.map(post=>(
           <Post
             key={post.id} 
             postId={post.id}
@@ -33,6 +43,7 @@ export default function ProfilePage() {
             createdAt={post.createdAt}
             likes={post.likes}
             count={post._count}
+            userId={post.userId}
           />
         ))}
       </>
