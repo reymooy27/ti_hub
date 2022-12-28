@@ -10,12 +10,12 @@ export default function ProfilePage() {
   const router = useRouter()
   const userId = parseInt(router.query.id as string, 10)
 
-  const likedPosts = trpc.useQuery(['post.posts-liked-by-user'])
-  const sortedLikedPosts = likedPosts?.data?.sort((a,b)=>{
-    const postA = new Date(a.likes[0]?.createdAt);
-    const postB = new Date(b.likes[0]?.createdAt);
-    return Number(postB) - Number(postA);
-  })
+  // const likedPosts = trpc.useQuery(['post.posts-liked-by-user'])
+  // const sortedLikedPosts = likedPosts?.data?.sort((a,b)=>{
+  //   const postA = new Date(a.likes[0]?.createdAt);
+  //   const postB = new Date(b.likes[0]?.createdAt);
+  //   return Number(postB) - Number(postA);
+  // })
   const userDetails = trpc.useQuery(['user.user-details', {userId}])
   const userPost = userDetails.data?.posts
   return (
