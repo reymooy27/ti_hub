@@ -31,7 +31,7 @@ const Home: NextPage = () => {
           <Header/>
           <main className='w-full h-full pt-[70px] pb-5 flex gap-6 px-6 relative'>
             <LeftSideBar/> 
-            <Main session={session}/>
+            <Main/>
             <RightSideBar/>
           </main>
         </div>
