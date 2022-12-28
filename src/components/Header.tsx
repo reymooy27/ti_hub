@@ -34,7 +34,7 @@ export default function Header() {
         <Link href='/chats'>
           <a className='font-bold'>Chats</a>
         </Link>
-        <Link href='/profile'>
+        <Link href={`/user/${session?.user?.id}`}>
           <a className='font-bold'>Profile</a>
         </Link>
         <Link href='/settings'>

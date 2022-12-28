@@ -97,7 +97,7 @@ export default function CommentButton({postId}: {postId: number}) {
           <ModalBody>
             <div className='flex w-full h-fit p-5 bg-secondary rounded-xl gap-3'>
               <div className='flex justify-start h-fit'>
-                <Link href='/profile'>
+                <Link href={`/user/${session?.user?.id}`}>
                   <a>
                   <Image 
                     alt='profile-pic' 

@@ -75,7 +75,7 @@ export default function Post(
     return(
       <div className='flex'>
         <div className='mr-3'>
-          <Link href='/profile'>
+          <Link href={`/user/${userId}`}>
             <a>
               {profileImage && 
                 <Image 
@@ -91,7 +91,7 @@ export default function Post(
         </div>
         <div className='w-full'>
           <div className='flex gap-3'>
-            <Link href='/profile'>
+            <Link href={`/user/${userId}`}>
               <h1 className='cursor-pointer font-bold hover:underline'>{username}</h1>
             </Link>
             <h1>{new Date(createdAt).toLocaleDateString()}</h1>
