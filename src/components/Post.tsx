@@ -27,7 +27,8 @@ export type PostProps = {
   profileImage: string | null,
   likes: Like[],
   noLink?: boolean,
-  count: Count
+  count: Count,
+  userId: number
 }
 
 export default function Post(
@@ -39,7 +40,8 @@ export default function Post(
     createdAt, 
     likes, 
     noLink, 
-    count
+    count,
+    userId
   }: PostProps) {
 
   const {data: session} = useSession()

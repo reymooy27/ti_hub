@@ -37,6 +37,7 @@ export default function PostPage() {
             likes={post?.data?.likes as Like[]}
             noLink={true}
             count={post?.data?._count}
+            userId={Number(post?.data?.userId)}
             />
         }
 
@@ -55,6 +56,7 @@ export default function PostPage() {
             likes={c.likes as Like[]}
             noLink={true}
             count={c?._count}
+            userId={c.userId}
             />
         ))}
       </>

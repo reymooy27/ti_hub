@@ -43,6 +43,7 @@ export default function Main() {
               createdAt={post.createdAt}
               likes={post.likes}
               count={post._count}
+              userId={post.userId}
               />
           </div>
         ))
