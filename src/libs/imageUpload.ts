@@ -1,7 +1,15 @@
 import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { CloudinaryStorage, OptionCallback, Options } from "multer-storage-cloudinary";
 import {v2 as cloudinary} from 'cloudinary'
 import {v4} from 'uuid'
+
+declare interface CloudinaryOptions extends Options {
+  params: {
+    folder: string,
+    allowedFormats: string[],
+    public_id: OptionCallback<string>
+  }
+}
 
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
@@ -10,14 +18,16 @@ cloudinary.config({
   secure: true
 });
 
-const storage = new CloudinaryStorage({
+const multerOpts: CloudinaryOptions = {
   cloudinary: cloudinary,
   params: {
     folder: "/profilePicture",
     allowedFormats: ["jpg", "png"],
     public_id: () => `${v4()}`
   },
-});
+};
+
+const storage = new CloudinaryStorage(multerOpts);
 
 export function uploadImage(name: string){
   const imageUpload = multer({
