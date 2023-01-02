@@ -1,10 +1,11 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+const FontAwesomeIcon = dynamic(()=> import('@fortawesome/react-fontawesome').then(module=> module.FontAwesomeIcon))
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { trpc } from '../utils/trpc'
 import { useSession } from 'next-auth/react'
-import CommentButton from './Modal'
+import dynamic from 'next/dynamic'
+const CommentButton = dynamic(()=> import('./Modal'))
 
 export type Count ={
   likes?: number,
@@ -43,6 +44,7 @@ export default function Post(
     count,
     userId
   }: PostProps) {
+
 
   const {data: session} = useSession()
   const likeMutation = trpc.useMutation(['post.like-post'])
@@ -102,13 +104,15 @@ export default function Post(
             <p>{title}</p>
           </div>
           {image && 
-            <div className='w-full'>
-              <img 
+            <div className='w-full mt-2'>
+              <Image 
                 alt='image' 
                 src={image} 
-                width={"100%"} 
-                height={'100%'} 
-                className='w-full h-full rounded-xl pt-2'/>
+                width="100%"
+                height="100%"
+                layout='responsive'
+                objectFit='contain'
+                className='rounded-xl'/>
             </div>
           }
         </div>
@@ -127,7 +131,9 @@ export default function Post(
       }
         <div className='flex justify-between items-center pt-5'>
           <div className='flex gap-1 items-center'>
-            <CommentButton postId={postId}/>
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <CommentButton postId={postId}/>
+            </Suspense>
             {count?.comments !== undefined && count?.comments > 0 && <p>{count?.comments}</p>}
           </div>  
           <div className='flex gap-1 items-center'>

@@ -1,5 +1,6 @@
-import { CloseButton } from '@chakra-ui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import dynamic from 'next/dynamic'
+const CloseButton = dynamic(()=> import('@chakra-ui/react').then(module=> module.CloseButton))
+const FontAwesomeIcon = dynamic(()=> import('@fortawesome/react-fontawesome').then(module=> module.FontAwesomeIcon))
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'

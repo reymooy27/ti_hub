@@ -7,8 +7,9 @@ import {
   useDisclosure,
   CloseButton,
 } from '@chakra-ui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+const FontAwesomeIcon = dynamic(()=> import('@fortawesome/react-fontawesome').then(module=> module.FontAwesomeIcon))
 import { useSession } from 'next-auth/react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'

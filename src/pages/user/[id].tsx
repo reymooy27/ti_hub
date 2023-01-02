@@ -2,7 +2,8 @@ import React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { trpc } from '../../utils/trpc'
-import Post from '../../components/Post'
+import dynamic from 'next/dynamic'
+const Post = dynamic(()=> import('../../components/Post'))
 import Layout from '../../components/Layout'
 
 export default function ProfilePage() {

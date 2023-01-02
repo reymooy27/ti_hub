@@ -3,8 +3,9 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Layout from '../../components/Layout'
 import { trpc } from '../../utils/trpc'
-import Post from '../../components/Post'
+const Post = dynamic(()=> import('../../components/Post'))
 import type { Like, Count } from '../../components/Post'
+import dynamic from 'next/dynamic'
 export default function PostPage() {
 
   const router = useRouter()
