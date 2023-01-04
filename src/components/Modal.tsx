@@ -92,7 +92,7 @@ export default function CommentButton({postId}: {postId: number}) {
       <FontAwesomeIcon onClick={onOpen} icon='comment' width={24} className='cursor-pointer'/>
       <ModalChakraUI blockScrollOnMount={true} isOpen={isOpen} onClose={handleCloseModal}>
         <ModalOverlay />
-        <ModalContent background='#282828' textColor='white'>
+        <ModalContent className='m-[10px]' background='#282828' textColor='white'>
           <ModalCloseButton mb={20}/> 
           <ModalBody>
             <div className='flex w-full h-fit p-5 bg-secondary rounded-xl gap-3'>
