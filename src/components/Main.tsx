@@ -21,7 +21,7 @@ export default function Main() {
   }
 
   return (
-    <div className="w-[66%] h-full flex flex-col justify-start gap-3">
+    <div className="sm:w-[66%] w-full h-full flex flex-col justify-start gap-3">
       <TweetInput/>
       {posts.isLoading ? <h1>Loading...</h1>   
       : 
