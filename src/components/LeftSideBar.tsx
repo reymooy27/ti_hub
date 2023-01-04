@@ -7,7 +7,7 @@ export default function LeftSideBar() {
   const {data: session} = useSession()
   return (
     // Profile card
-    <div className="w-[33%] h-full sticky top-0 overflow-y-auto">
+    <div className="sm:block hidden w-[33%] h-full sticky top-0 overflow-y-auto">
       <div className='h-[300px] bg-secondary rounded-xl'>
         <div className='bg-red-300 rounded-xl'></div>
         <div className='flex flex-col justify-center items-center pt-6'>
