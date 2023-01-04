@@ -11,10 +11,10 @@ import superjson from "superjson";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHeart, faRetweet, faShare, faComment, faImage} from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faRetweet, faShare, faComment, faImage, faMessage, faHome} from '@fortawesome/free-solid-svg-icons'
 
 // adding icon to library FontAwesome
-library.add(faImage, faHeart, faRetweet, faShare, faComment,)
+library.add(faImage, faHeart, faRetweet, faShare, faComment, faMessage, faHome)
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactElement
