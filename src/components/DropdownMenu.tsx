@@ -6,9 +6,10 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuGroup,
+  // MenuGroup,
   Flex,
 } from '@chakra-ui/react'
+import Link from 'next/link';
 
 type DropdownMenuProps = {
   session: any,
@@ -24,11 +25,19 @@ export default function DropdownMenu({session, signOut}: DropdownMenuProps) {
         </Flex>
       </MenuButton>
       <MenuList bgColor={'#282828'}>
-        <MenuGroup title='Profile'>
-          <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>My Account</MenuItem>
-          <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>My Account</MenuItem>
+        {/* <MenuGroup title='Profile'> */}
+          <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>
+            <Link href={`/user/${session?.user?.id}`}>
+              <a>Profile</a>
+            </Link>
+          </MenuItem>
+          <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>
+            <Link href='/settings'>
+              <a>Setting</a>
+            </Link>
+          </MenuItem>
           <MenuItem onClick={signOut} backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>SignOut</MenuItem>
-        </MenuGroup>
+        {/* </MenuGroup> */}
         {/* <MenuDivider />
         <MenuGroup title='Help'>
           <MenuItem backgroundColor={'#282828'} _hover={{bg: '#302e2e'}}>My Account</MenuItem>
