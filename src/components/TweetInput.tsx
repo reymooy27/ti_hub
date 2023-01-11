@@ -6,6 +6,7 @@ import Link from 'next/link'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { getBaseUrl } from '../pages/_app'
+import { Spinner } from '@chakra-ui/react'
 
 export default function TweetInput() {
 
@@ -125,12 +126,12 @@ export default function TweetInput() {
             <button 
               disabled={isSubmitButtonDisabled}
               onClick={handlePost} 
-              className={`rounded-xl w-full h-fit p-2 bg-background 
+              className={`rounded-xl w-full h-fit p-2 bg-primary text-black 
               hover:opacity-60 transition ease-in-out duration-300
               ${isSubmitButtonDisabled ? 'opacity-60' : 'opacity-100'}
               `}
               >
-                {loading ? "Loading..." : "Post"}
+                {loading ? <Spinner className='text-background w-[14px] h-[14px]'/> : "Post"}
             </button>
           </div>
         </div>

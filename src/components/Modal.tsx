@@ -6,6 +6,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   CloseButton,
+  Spinner,
 } from '@chakra-ui/react'
 const FontAwesomeIcon = dynamic(()=> import('@fortawesome/react-fontawesome').then(module=> module.FontAwesomeIcon))
 import { useSession } from 'next-auth/react'
@@ -156,7 +157,7 @@ export default function CommentButton({postId}: {postId: number}) {
                       ${isSubmitButtonDisabled ? 'opacity-60' : 'opacity-100'}
                       `}
                       >
-                        {loading ? "Loading..." : "Post"}
+                        {loading ? <Spinner className='text-background w-[14px] h-[14px]'/> : "Post"}
                     </button>
                   </div>
                 </div>
