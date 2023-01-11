@@ -2,7 +2,8 @@ import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link';
 import React from 'react'
 import dynamic from 'next/dynamic'
-const FontAwesomeIcon = dynamic(()=> import('@fortawesome/react-fontawesome').then(module=> module.FontAwesomeIcon))
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const DropdownMenu = dynamic(()=> import('./DropdownMenu'))
 
 export default function Header() {
