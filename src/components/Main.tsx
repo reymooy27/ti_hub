@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { trpc } from '../utils/trpc'
 import Post from './Post'
+import PostSkeleteon from './PostSkeleteon'
 import TweetInput from './TweetInput'
 
 export default function Main() {
@@ -23,7 +24,8 @@ export default function Main() {
   return (
     <div className="sm:w-[66%] w-full h-full flex flex-col justify-start gap-3">
       <TweetInput/>
-      {posts.isLoading ? <h1>Loading...</h1>   
+      {posts.isLoading 
+      ? Array(5).fill('').map((p,i)=> (<PostSkeleteon key={i}/>))   
       : 
         posts?.data?.length as number < 1 ? <h1>No Post</h1> : 
         posts?.data?.map((post)=>(

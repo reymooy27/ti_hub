@@ -6,6 +6,7 @@ import { trpc } from '../../utils/trpc'
 const Post = dynamic(()=> import('../../components/Post'))
 import type { Like, Count } from '../../components/Post'
 import dynamic from 'next/dynamic'
+import PostSkeleteon from '../../components/PostSkeleteon'
 export default function PostPage() {
 
   const router = useRouter()
@@ -21,7 +22,7 @@ export default function PostPage() {
       </Head>
       
       <>
-        {post.isLoading ? 'Loading...' :
+        {post.isLoading ? <PostSkeleteon/> :
           <Post
             postId={post?.data?.id as number} 
             title={post?.data?.title as string} 
@@ -37,7 +38,7 @@ export default function PostPage() {
         }
 
         <h1>Comments</h1>
-        {comments?.isLoading && 'Loading...'}
+        {comments?.isLoading && Array(5).fill('').map((p,i)=> (<PostSkeleteon key={i}/>)) }
         {Number(comments?.data?.length) < 1 && 'No Comments' }
         {comments?.data?.map(c=>(
           <Post

@@ -5,6 +5,7 @@ import { trpc } from '../../utils/trpc'
 import dynamic from 'next/dynamic'
 const Post = dynamic(()=> import('../../components/Post'))
 import Layout from '../../components/Layout'
+import PostSkeleteon from '../../components/PostSkeleteon'
 
 export default function ProfilePage() {
 
@@ -31,7 +32,7 @@ export default function ProfilePage() {
         <h1>Media</h1>
         <h1>Likes</h1>
       </div>
-        {userDetails.isLoading && 'Loading...'}
+        {userDetails.isLoading && Array(5).fill('').map((p,i)=> (<PostSkeleteon key={i}/>))}
         {userPost?.length as number < 1 && 'No liked post'}
         {userPost?.map(post=>(
           <Post
