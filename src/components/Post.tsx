@@ -1,4 +1,4 @@
-const FontAwesomeIcon = dynamic(()=> import('@fortawesome/react-fontawesome').then(module=> module.FontAwesomeIcon))
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { Suspense, useEffect, useState } from 'react'
