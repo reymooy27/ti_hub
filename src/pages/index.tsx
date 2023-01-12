@@ -27,9 +27,9 @@ const Home: NextPage = () => {
       <Head>
         <title>Social</title>
       </Head> 
-         <div className="h-full w-full">
+        <div className="h-full w-full">
           <Header/>
-          <main className='w-full h-full pt-[70px] pb-5 flex gap-6 px-6 relative'>
+          <main className='w-full h-full pt-[70px] pb-5 flex gap-6 sm:px-6 px-[10px] relative'>
             <LeftSideBar/> 
             <Main/>
             <RightSideBar/>
