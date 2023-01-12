@@ -7,6 +7,8 @@ const Post = dynamic(()=> import('../../components/Post'))
 import type { Like, Count } from '../../components/Post'
 import dynamic from 'next/dynamic'
 import PostSkeleteon from '../../components/PostSkeleteon'
+import LeftSideBar from '../../components/LeftSideBar'
+import RightSideBar from '../../components/RightSideBar'
 export default function PostPage() {
 
   const router = useRouter()
@@ -21,7 +23,7 @@ export default function PostPage() {
         <title>Post</title>
       </Head>
       
-      <>
+      <div className="sm:w-[66%] w-full h-full flex flex-col justify-start gap-3">
         {post.isLoading ? <PostSkeleteon/> :
           <Post
             postId={post?.data?.id as number} 
@@ -55,7 +57,7 @@ export default function PostPage() {
             userId={c.userId}
             />
         ))}
-      </>
+      </div>
     </>
   )
 }
@@ -63,7 +65,11 @@ export default function PostPage() {
 PostPage.getLayout = function getLayout(page: React.ReactElement){
   return(
     <Layout>
-      {page}
+      <>
+        <LeftSideBar/>
+        {page}
+        <RightSideBar/>
+      </>
     </Layout>
   )
 }
