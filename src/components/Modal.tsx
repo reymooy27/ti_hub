@@ -8,13 +8,12 @@ import {
   CloseButton,
   Spinner,
 } from '@chakra-ui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSession } from 'next-auth/react'
-import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { getBaseUrl } from '../pages/_app'
+import {MessageSquare, Image as ImageIcon} from 'react-feather'
 
 export default function CommentButton({postId}: {postId: number}) {
 
@@ -90,7 +89,7 @@ export default function CommentButton({postId}: {postId: number}) {
 
   return (
     <>
-      <FontAwesomeIcon onClick={onOpen} icon='comment' width={24} className='cursor-pointer'/>
+      <MessageSquare onClick={onOpen} size={24} className='cursor-pointer'/>
       <ModalChakraUI blockScrollOnMount={true} isOpen={isOpen} onClose={handleCloseModal}>
         <ModalOverlay />
         <ModalContent className='m-[10px]' background='#282828' textColor='white'>
@@ -138,7 +137,7 @@ export default function CommentButton({postId}: {postId: number}) {
                 </div>
                 <div className='flex w-full justify-between items-end gap-3'>
                   <div className='relative w-fit h-fit'>
-                    <FontAwesomeIcon icon='image' width={24} className='cursor-pointer'/>
+                    <ImageIcon size={24} className='cursor-pointer'/>
                     <input className='absolute top-0 left-0 right-0 bottom-0 opacity-0'
                       type="file"
                       ref={fileInputRef}

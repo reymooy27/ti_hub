@@ -1,10 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { getBaseUrl } from '../pages/_app'
 import { CloseButton, Spinner } from '@chakra-ui/react'
+import {Image as ImageIcon} from 'react-feather'
 
 export default function TweetInput() {
 
@@ -110,7 +110,7 @@ export default function TweetInput() {
         </div>
         <div className='flex w-full justify-between items-end gap-3'>
           <div className='relative w-fit h-fit'>
-            <FontAwesomeIcon icon='image' width={24} className='cursor-pointer'/>
+            <ImageIcon size={24} className='cursor-pointer'/>
             <input className='absolute top-0 left-0 right-0 bottom-0 opacity-0'
               type="file"
               ref={fileInputRef}

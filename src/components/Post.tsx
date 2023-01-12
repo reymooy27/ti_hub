@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { Suspense, useEffect, useState } from 'react'
@@ -6,6 +5,7 @@ import { trpc } from '../utils/trpc'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 const CommentButton = dynamic(()=> import('./Modal'))
+import {Heart, Repeat, Share} from 'react-feather'
 
 export type Count ={
   likes?: number,
@@ -137,13 +137,13 @@ export default function Post(
             {count?.comments !== undefined && count?.comments > 0 && <p>{count?.comments}</p>}
           </div>  
           <div className='flex gap-1 items-center'>
-            <FontAwesomeIcon icon='heart' width={24} className='cursor-pointer' color={isLiked ? 'red' : 'white'} onClick={handleLikeButton} />
+            <Heart size={24} className='cursor-pointer' color={isLiked ? 'red' : 'white'} onClick={handleLikeButton} />
             {likeCounts !== undefined && likeCounts > 0 ? <p>{likeCounts}</p> : null}
           </div>
           <div className='flex gap-1 items-center'>
-            <FontAwesomeIcon icon='retweet' width={24} className='cursor-pointer'/>
+            <Repeat size={24} className='cursor-pointer'/>
           </div>
-          <FontAwesomeIcon icon='share' width={24} className='cursor-pointer'/>
+          <Share size={24} className='cursor-pointer'/>
         </div>
       </div>
   )
